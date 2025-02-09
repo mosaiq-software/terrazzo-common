@@ -62,6 +62,7 @@ export interface BoardMember extends User {
 
 export interface Comment {
     id: string;
+    cardId: string,
     content: string;
     postedAt: Date;
     postedBy: User;
