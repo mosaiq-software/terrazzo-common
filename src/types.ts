@@ -64,8 +64,8 @@ export interface Comment {
     id: string;
     cardId: string,
     content: string;
-    postedAt: Date;
-    postedBy: User;
+    postedAt: ISO_Date;
+    postedById: string;
     archived: boolean;
 }
 
@@ -128,3 +128,5 @@ export interface TextBlockEvent {
     end: number;
     inserted: string;
 }
+
+export type ISO_Date = string;

@@ -1,4 +1,4 @@
-import {Board, Card, List, TextBlock, TextBlockEvent, TextBlockId} from "./types";
+import {Board, Card, Comment, List, TextBlock, TextBlockEvent, TextBlockId} from "./types";
 
 // SOCKET IO BUILT-IN EVENTS
 export enum ClientSocketIOEvent {
@@ -28,6 +28,7 @@ export enum ClientSE { // Client to Server
     GET_TEXT_BLOCK = "GET_TEXT_BLOCK",
     UPDATE_TEXT_BLOCK = "UPDATE_TEXT_BLOCK",
     TEXT_CARET = "TEXT_CARET",
+    CREATE_COMMENT = "CREATE_COMMENT",
 }
 export interface ClientSEPayload {
     // Client to Server
@@ -43,6 +44,7 @@ export interface ClientSEPayload {
     [ClientSE.GET_TEXT_BLOCK]: TextBlockId;
     [ClientSE.UPDATE_TEXT_BLOCK]: TextBlockEvent[];
     [ClientSE.TEXT_CARET]: Position;
+    [ClientSE.CREATE_COMMENT]: Comment;
 }
 export interface ClientSEReplies {
     // Client to Server req - Server to Client callback
@@ -58,6 +60,7 @@ export interface ClientSEReplies {
     [ClientSE.GET_TEXT_BLOCK]: TextBlock | undefined;
     [ClientSE.UPDATE_TEXT_BLOCK]: string | undefined;
     [ClientSE.TEXT_CARET]: undefined;
+    [ClientSE.CREATE_COMMENT]: {commentId: string | undefined};
 }
 export type ClientSEReply<T extends ClientSE> = (payload: ClientSEReplies[T], error?: string) => void;
 
@@ -74,6 +77,7 @@ export enum ServerSE { // Server to Client
     UPDATE_CARD_TITLE = "UPDATE_CARD_TITLE",
     UPDATE_TEXT_BLOCK = "UPDATE_TEXT_BLOCK",
     TEXT_CARET = "TEXT_CARET",
+    CREATE_COMMENT = "CREATE_COMMENT",
 }
 export interface ServerSEPayload {
     // Server to Client
@@ -88,6 +92,7 @@ export interface ServerSEPayload {
     [ServerSE.UPDATE_CARD_TITLE]: UpdateCardTitleType;
     [ServerSE.UPDATE_TEXT_BLOCK]: {events: TextBlockEvent[], updated: string};
     [ServerSE.TEXT_CARET]: {sid: SocketId, caret: Position};
+    [ServerSE.CREATE_COMMENT]: Comment;
 }
 export interface ServerSEReplies {
     // Server to Client req - Client to Server callback
@@ -102,7 +107,9 @@ export interface ServerSEReplies {
     [ServerSE.UPDATE_CARD_TITLE]: void;
     [ServerSE.UPDATE_TEXT_BLOCK]: void;
     [ServerSE.TEXT_CARET]: void;
+    [ServerSE.CREATE_COMMENT]: void;
 }
+
 export type ServerSEReply<T extends ServerSE> = (payload: ServerSEReplies[T], error?: string) => void;
 
 export interface MouseRoomUserData extends Position {};
