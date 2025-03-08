@@ -1,3 +1,5 @@
+import {User} from "./types";
+
 export enum LocalStorageKey {
     GITHUB_ACCESS_TOKEN = 'GITHUB_ACCESS_TOKEN',
 }
@@ -31,4 +33,12 @@ export enum StoryPoints{
     L = 8,
     XL = 13,
     XXL = 21,
+}
+
+
+export enum ListType {
+    DOING = "DOING",
+    DONE = "DONE",
+    BACKLOG = "BACKLOG",
+    NORMAL = "NORMAL",
 }

@@ -1,4 +1,4 @@
-import {EntityType, Priority, Role, StoryPoints} from "./constants";
+import {EntityType, ListType, Priority, Role, StoryPoints} from "./constants";
 
 export type URL = string;
 export type UID = `${string}-${string}-${string}-${string}-${string}`;
@@ -55,7 +55,10 @@ export interface List {
     id: ListId;
     boardId: BoardId;
     name: string;
+    type: ListType;
     archived: boolean;
+    startDate: Date | null;
+    endDate: Date | null;
     order: number;
     cards: CardHeader[];
 }

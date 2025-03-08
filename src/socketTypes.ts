@@ -196,7 +196,7 @@ export type SocketId = string;
 export type CreateOrgType = {name: string, creator:UserId};
 export type CreateProjectType = {name: string, orgId:OrganizationId};
 export type CreateBoardType = {name:string; boardCode: string, projectId: ProjectId};
-export type CreateListType = {boardID: BoardId; listName: string};
+export type CreateListType = {boardID: BoardId; listName: string, start:Date, end:Date};
 export type CreateCardType = {listID: ListId; cardName: string};
 
 export interface UserData {
