@@ -53,7 +53,7 @@ export interface ClientSEPayload {
     [ClientSE.USER_IDLE]: boolean;
     [ClientSE.TEXT_CARET]: Position | undefined;
     [ClientSE.MOVE_LIST]: {listId: ListId, position: number};
-    [ClientSE.MOVE_CARD]: {cardId: CardId, toList: ListId, position?: number};
+    [ClientSE.MOVE_CARD]: {cardId: CardId, toList: ListId, toSprint?: ListId, position?: number};
 
     [ClientSE.GET_USERS_ENTITIES]: UserId;
     [ClientSE.GET_ORGANIZATION]: OrganizationId;
@@ -197,7 +197,7 @@ export type CreateOrgType = {name: string, creator:UserId};
 export type CreateProjectType = {name: string, orgId:OrganizationId};
 export type CreateBoardType = {name:string; boardCode: string, projectId: ProjectId};
 export type CreateListType = {boardID: BoardId; listName: string, start:Date, end:Date};
-export type CreateCardType = {listID: ListId; cardName: string};
+export type CreateCardType = {listID: ListId; cardName: string, sprintID?: ListId};
 
 export interface UserData {
     sid: SocketId;

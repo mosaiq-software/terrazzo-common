@@ -66,11 +66,11 @@ export interface List {
 export interface CardHeader {
     id: CardId;
     listId: ListId | null;
+    sprintId: ListId | null;
     cardNumber: number;
     name: string;
     priority: Priority | null;
     storyPoints: StoryPoints | null;
-    sprintId: string;
     archived: boolean;
     order: number;
     labels: Label[];
