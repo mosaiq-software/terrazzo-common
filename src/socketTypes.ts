@@ -42,6 +42,8 @@ export enum ClientSE { // Client to Server
     UPDATE_LIST_FIELD = "UPDATE_LIST_FIELD",
     UPDATE_CARD_FIELD = "UPDATE_CARD_FIELD",
 
+    END_SPRINT = "END_SPRINT",
+
     SETUP_USER = "SETUP_USER",
     GET_USER = "GET_USER",
     CHECK_USERNAME_TAKEN = "CHECK_USERNAME_TAKEN",
@@ -74,6 +76,8 @@ export interface ClientSEPayload {
     [ClientSE.UPDATE_LIST_FIELD]: (Partial<List> & {id: ListId});
     [ClientSE.UPDATE_CARD_FIELD]: (Partial<Card> & {id: CardId});
 
+    [ClientSE.END_SPRINT]: ListId;
+
     [ClientSE.SETUP_USER]: {id: string, username: string, firstName: string, lastName:string}
     [ClientSE.GET_USER]: string;
     [ClientSE.CHECK_USERNAME_TAKEN]: string;
@@ -105,6 +109,8 @@ export interface ClientSEReplies {
     [ClientSE.UPDATE_BOARD_FIELD]: undefined;
     [ClientSE.UPDATE_LIST_FIELD]: undefined;
     [ClientSE.UPDATE_CARD_FIELD]: undefined;
+
+    [ClientSE.END_SPRINT]: undefined;
     
     [ClientSE.SETUP_USER]: User | undefined;
     [ClientSE.GET_USER]: User | undefined;
