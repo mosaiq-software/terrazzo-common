@@ -55,7 +55,7 @@ export interface ClientSEPayload {
     [ClientSE.USER_IDLE]: boolean;
     [ClientSE.TEXT_CARET]: Position | undefined;
     [ClientSE.MOVE_LIST]: {listId: ListId, position: number};
-    [ClientSE.MOVE_CARD]: {cardId: CardId, toList: ListId, toSprint?: ListId, position?: number};
+    [ClientSE.MOVE_CARD]: {cardId: CardId, toList: ListId, toSprint?: ListId | null, position?: number};
 
     [ClientSE.GET_USERS_ENTITIES]: UserId;
     [ClientSE.GET_ORGANIZATION]: OrganizationId;
@@ -132,7 +132,7 @@ export enum ServerSE { // Server to Client
 
     ADD_LIST = "ADD_LIST",
     ADD_CARD = "ADD_CARD",
-    
+
     UPDATE_TEXT_BLOCK = "UPDATE_TEXT_BLOCK",
     UPDATE_BOARD_FIELD = "UPDATE_BOARD_FIELD",
     UPDATE_LIST_FIELD = "UPDATE_LIST_FIELD",
@@ -148,11 +148,11 @@ export interface ServerSEPayload {
     [ServerSE.USER_IDLE]: { sid: SocketId; idle: boolean };
     [ServerSE.TEXT_CARET]: {sid: SocketId, caret?: Position};
     [ServerSE.MOVE_LIST]: {listId: ListId, position: number};
-    [ServerSE.MOVE_CARD]: {cardId: CardId, toList: ListId, position?: number};
+    [ServerSE.MOVE_CARD]: {cardId: CardId, toList: ListId, newDate: Date, toSprint?: ListId | null, position?: number};
     
     [ServerSE.ADD_LIST]: List;
     [ServerSE.ADD_CARD]: Card;
-    
+
     [ServerSE.UPDATE_TEXT_BLOCK]: {events: TextBlockEvent[], updated: string};
     [ServerSE.UPDATE_BOARD_FIELD]: (Partial<Board> & {id: BoardId});
     [ServerSE.UPDATE_LIST_FIELD]: (Partial<List> & {id: ListId});
@@ -172,7 +172,7 @@ export interface ServerSEReplies {
 
     [ServerSE.ADD_LIST]: void;
     [ServerSE.ADD_CARD]: void;
-
+    
     [ServerSE.UPDATE_TEXT_BLOCK]: void;
     [ServerSE.UPDATE_BOARD_FIELD]: void;
     [ServerSE.UPDATE_LIST_FIELD]: void;

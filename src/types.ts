@@ -75,6 +75,8 @@ export interface CardHeader {
     order: number;
     labels: Label[];
     assignees: User[];
+    startDate: Date | null;
+    endDate: Date | null;
 }
 export interface Card extends CardHeader{
     descriptionTextBlockId: TextBlockId;
