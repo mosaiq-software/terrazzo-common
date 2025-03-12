@@ -12,6 +12,7 @@ export type TextBlockId = UID;
 export type LabelId = UID;
 export type CommentId = UID;
 
+
 export interface OrganizationHeader {
     id: OrganizationId;
     name: string;
@@ -134,4 +135,16 @@ export interface MembershipRecord {
     entityId: ProjectId|OrganizationId;
     entityType: EntityType;
     role: Role;
+}
+
+export interface Burndown {
+    id: UID;
+    boardId: BoardId;
+    name: string;
+    sprintId: ListId;
+    totalDays: number;
+    totalTasks: number;
+    tasksCompleted: number;
+    tasksUncompleted: number;
+    tasksCompletedPerDay: CardHeader[][];
 }
