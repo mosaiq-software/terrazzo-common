@@ -136,15 +136,3 @@ export interface MembershipRecord {
     entityType: EntityType;
     role: Role;
 }
-
-export interface Burndown {
-    id: UID;
-    boardId: BoardId;
-    name: string;
-    sprintId: ListId;
-    totalDays: number;
-    totalTasks: number;
-    tasksCompleted: number;
-    tasksUncompleted: number;
-    tasksCompletedPerDay: CardHeader[][];
-}
