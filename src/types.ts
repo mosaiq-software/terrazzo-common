@@ -117,7 +117,7 @@ export interface User extends UserHeader {
 export interface Comment {
     id: CommentId;
     content: string;
-    postedAt: Date;
+    postedAt: ISO_Date;
     postedBy: UserId;
     archived: boolean;
 }
