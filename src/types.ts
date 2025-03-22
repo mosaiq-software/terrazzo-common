@@ -1,43 +1,97 @@
-import { Role, EventType } from './constants';
+import {EntityType, Priority, Role, StoryPoints} from "./constants";
 
-export interface Card {
-    id: string;
-    listId: string;
-    cardNumber: number;
+export type URL = string;
+export type UID = `${string}-${string}-${string}-${string}-${string}`;
+export type OrganizationId = UID;
+export type ProjectId = UID;
+export type BoardId = UID;
+export type ListId = UID;
+export type CardId = UID;
+export type UserId = UID;
+export type TextBlockId = UID;
+export type LabelId = UID;
+export type CommentId = UID;
+export type InviteId = UID;
+export type MembershipRecordId = UID;
+export type EntityId = ProjectId | OrganizationId;
+export type AssignmentId = UID;
+
+export interface OrganizationHeader {
+    id: OrganizationId;
     name: string;
-    descriptionTextBlockId: TextBlockId;
-    priority: Priority;
-    storyPoints: number;
-    sprintId: string;
-    assignees: User[];
-    comments: Comment[];
-    checklists: Checklist[];
-    labels: Label[];
-    timesheetEntries: TimesheetEntry[];
     archived: boolean;
-    order: number;
+    createdAt: number;
+    logoUrl: URL;
+    isPersonalOrg: boolean;
+    description: string;
+}
+export interface Organization extends OrganizationHeader{
+    members: Member[];
+    projects: ProjectHeader[];
+    invites: Invite[];
 }
 
-export interface List {
-    id: string;
-    boardId: string;
+export interface ProjectHeader {
+    id: ProjectId;
+    orgId: OrganizationId;
     name: string;
-    cards: Card[];
     archived: boolean;
-    order: number;
+    createdAt: number;
+    logoUrl: URL;
+    description: string;
+}
+export interface Project extends ProjectHeader{
+    orgMembers: Member[];
+    externalMembers: Member[];
+    boards: BoardHeader[];
+    invites: Invite[];
 }
 
-export interface Board {
-    id: string;
+export interface BoardHeader {
+    id: BoardId;
+    projectId: ProjectId;
     boardCode: string;
     name: string;
-    lists: List[];
-    members: BoardMember[];
-    sprints: Sprint[];
-    labels: Label[];
     archived: boolean;
     createdAt: number;
     totalCards: number;
+}
+export interface Board extends BoardHeader{
+    lists: List[];
+    sprints: Sprint[];
+    labels: Label[];
+}
+export interface BoardRes extends BoardHeader {
+    lists: {listId:ListId, cardIds:CardId[]}[];
+}
+
+export interface ListHeader {
+    id: ListId;
+    boardId: BoardId;
+    name: string;
+    archived: boolean;
+    order: number;
+}
+export interface List extends ListHeader{
+    cards: Card[];
+}
+
+export interface CardHeader {
+    id: CardId;
+    listId: ListId;
+    cardNumber: number;
+    name: string;
+    priority: Priority | null;
+    storyPoints: StoryPoints | null;
+    sprintId: string;
+    archived: boolean;
+    order: number;
+    descriptionTextBlockId: TextBlockId;
+}
+export interface Card extends CardHeader{
+    comments: CommentId[];
+    labels: LabelId[];
+    assignees: UserId[];
 }
 
 export interface Sprint {
@@ -47,79 +101,35 @@ export interface Sprint {
     endDate: Date;
 }
 
-export interface User {
-    id: string;
-    fullName: string;
-    discordUserId: string;
+export interface UserHeader {
+    id: UserId;
+    username: string;
+    firstName: string;
+    lastName: string;
+    profilePicture: URL;
     githubUserId: string;
-    activeTimerId: string;
-    archived: boolean;
 }
-
-export interface BoardMember extends User {
-    role: Role;
+export interface User extends UserHeader {
+    projectIds: ProjectId[];
+    organizationIds: OrganizationId[];
 }
 
 export interface Comment {
-    id: string;
-    cardId: string,
+    id: CommentId;
     content: string;
-    postedAt: ISO_Date;
-    postedById: string;
+    postedAt: Date;
+    postedBy: UserId;
     archived: boolean;
-}
-
-export enum Priority {
-    LOWEST = 1,
-    LOW = 2,
-    MEDIUM = 3,
-    HIGH = 4,
-    HIGHEST = 5
-}
-
-export interface Checklist {
-    id: string;
-    name: string;
-    items: ChecklistItem[];
-    archived: boolean;
-}
-
-export interface ChecklistItem {
-    id: string;
-    name: string;
-    checked: boolean;
 }
 
 export interface Label {
-    id: string;
+    id: LabelId;
     name: string;
     color: string;
 }
 
-export interface TimesheetEntry {
-    id: string;
-    startedAt: Date;
-    endedAt: Date;
-    description: string;
-    userId: string;
-    cardId: string;
-    archived: boolean;
-}
-
-export interface EventLog {
-    id: string;
-    type: EventType;
-    timestamp: Date;
-    userId: string; // User who triggered the event
-    itemId: string; // Board, List, Card, Sprint, User, Comment, Checklist, ChecklistItem, Label, TimesheetEntry
-    oldValue: any;
-    newValue: any;
-}
-
-export type TextBlockId = string;
 export interface TextBlock {
     id: TextBlockId;
-    parentId: string;
     text: string;
 }
 export interface TextBlockEvent {
@@ -128,5 +138,67 @@ export interface TextBlockEvent {
     end: number;
     inserted: string;
 }
+
+export interface MembershipRecord {
+    id: MembershipRecordId;
+    userId: UserId;
+    entityId: EntityId;
+    entityType: EntityType;
+    userRole: Role;
+}
+
+export interface Member {
+    user: UserHeader;
+    record: MembershipRecord;
+}
+
+export interface InviteRecord {
+    id: InviteId;
+    toUser: UserId;
+    fromUser: UserId;
+    createdAt: number;
+    entityId: EntityId;
+    entityType: EntityType;
+    userRole: Role;
+}
+export interface Invite {
+    id: InviteId;
+    toUser: UserHeader;
+    fromUser: UserHeader;
+    createdAt: number;
+    entity: OrganizationHeader | ProjectHeader;
+    entityType: EntityType;
+    userRole: Role;
+}
+
+export interface UserDashOrganization extends OrganizationHeader {
+    projects: ProjectHeader[];
+    members: Member[];
+    myMembershipRecord: MembershipRecord;
+}
+export interface UserDashProject extends ProjectHeader {
+    members: Member[];
+    myMembershipRecord: MembershipRecord;
+}
+export interface UserDash {
+    organizations: UserDashOrganization[];
+    standaloneProjects: UserDashProject[];
+    invites: Invite[];
+}
+
+export interface GithubUserProfile {
+    id: string,
+    login: string,
+    avatar_url: URL,
+    name: string,
+}
+
+export interface Assignment {
+    id: AssignmentId;
+    userId: UserId;
+    cardId: CardId;
+}
+
+export type NonEmptyArray<T> = [T, ...T[]];
 
 export type ISO_Date = string;
