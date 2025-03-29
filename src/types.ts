@@ -15,6 +15,8 @@ export type InviteId = UID;
 export type MembershipRecordId = UID;
 export type EntityId = ProjectId | OrganizationId;
 export type AssignmentId = UID;
+export type ChecklistId = UID;
+export type ChecklistItemId = UID;
 
 export interface OrganizationHeader {
     id: OrganizationId;
@@ -92,6 +94,7 @@ export interface Card extends CardHeader{
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
+    checklists: ChecklistId[];
 }
 
 export interface Sprint {
@@ -137,6 +140,17 @@ export interface TextBlockEvent {
     start: number;
     end: number;
     inserted: string;
+}
+export interface ChecklistItem {
+    id: ChecklistItemId;
+    name: string;
+    checked: boolean;
+}
+export interface Checklist {
+    id: ChecklistId;
+    cardId: CardId;
+    name: string;
+    items: ChecklistItem[];
 }
 
 export interface MembershipRecord {
