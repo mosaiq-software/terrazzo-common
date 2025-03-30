@@ -94,7 +94,6 @@ export interface Card extends CardHeader{
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
-    checklists: ChecklistId[];
 }
 
 export interface Sprint {
@@ -143,14 +142,16 @@ export interface TextBlockEvent {
 }
 export interface ChecklistItem {
     id: ChecklistItemId;
-    name: string;
+    checklistId: ChecklistId;
+    itemName: string;
     checked: boolean;
+    order: number;
 }
 export interface Checklist {
     id: ChecklistId;
     cardId: CardId;
-    name: string;
-    items: ChecklistItem[];
+    checklistName: string;
+    archived: boolean;
 }
 
 export interface MembershipRecord {

@@ -1,5 +1,34 @@
 import { EntityType, Role } from "./constants";
-import {Board, BoardId, Card, CardId, List, ListId, Organization, OrganizationHeader, OrganizationId, Project, ProjectHeader, ProjectId, TextBlock, TextBlockEvent, TextBlockId, UserId, User, InviteId, Invite, EntityId, MembershipRecordId, MembershipRecord, UserDash, UserHeader, Assignment, BoardRes, ListHeader} from "./types";
+import {
+    Board,
+    BoardId,
+    Card,
+    CardId,
+    List,
+    ListId,
+    Organization,
+    OrganizationHeader,
+    OrganizationId,
+    Project,
+    ProjectHeader,
+    ProjectId,
+    TextBlock,
+    TextBlockEvent,
+    TextBlockId,
+    UserId,
+    User,
+    InviteId,
+    Invite,
+    EntityId,
+    MembershipRecordId,
+    MembershipRecord,
+    UserDash,
+    UserHeader,
+    Assignment,
+    BoardRes,
+    ListHeader,
+    Checklist, ChecklistId, ChecklistItem, ChecklistItemId
+} from "./types";
 
 // SOCKET IO BUILT-IN EVENTS
 export enum ClientSocketIOEvent {
@@ -32,6 +61,8 @@ export enum ClientSE { // Client to Server
     GET_BOARD = "GET_BOARD",
     GET_LIST = "GET_LIST",
     GET_CARD = "GET_CARD",
+    GET_CHECKLIST = "GET_CHECKLIST",
+    GET_CHECKLIST_ITEM = "GET_CHECKLIST_ITEM",
     GET_TEXT_BLOCK = "GET_TEXT_BLOCK",
 
     PREVIEW_ORGANIZATION = "PREVIEW_ORGANIZATION",
@@ -43,6 +74,8 @@ export enum ClientSE { // Client to Server
     CREATE_BOARD = "CREATE_BOARD",
     CREATE_LIST = "CREATE_LIST",
     CREATE_CARD = "CREATE_CARD",
+    CREATE_CHECKLIST = "CREATE_CHECKLIST",
+    CREATE_CHECKLIST_ITEM = "CREATE_CHECKLIST_ITEM",
 
     UPDATE_TEXT_BLOCK = "UPDATE_TEXT_BLOCK",
     UPDATE_ORG_FIELD = "UPDATE_ORG_FIELD",
@@ -52,6 +85,8 @@ export enum ClientSE { // Client to Server
     UPDATE_CARD_FIELD = "UPDATE_CARD_FIELD",
     UPDATE_MEMBERSHIP_RECORD_FIELD = "UPDATE_MEMBERSHIP_RECORD_FIELD",
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
+    UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
+    UPDATE_CHECKLIST_ITEM = "UPDATE_CHECKLIST_ITEM",
 
     SEND_INVITE = "SEND_INVITE",
     RESPOND_INVITE = "RESPOND_INVITE",
@@ -75,6 +110,8 @@ export interface ClientSEPayload {
     [ClientSE.GET_BOARD]: BoardId;
     [ClientSE.GET_LIST]: ListId;
     [ClientSE.GET_CARD]: CardId;
+    [ClientSE.GET_CHECKLIST]: string;
+    [ClientSE.GET_CHECKLIST_ITEM]: string;
     [ClientSE.GET_TEXT_BLOCK]: TextBlockId;
 
     [ClientSE.PREVIEW_ORGANIZATION]: OrganizationId;
@@ -86,6 +123,8 @@ export interface ClientSEPayload {
     [ClientSE.CREATE_BOARD]: CreateBoardType;
     [ClientSE.CREATE_LIST]: CreateListType;
     [ClientSE.CREATE_CARD]: CreateCardType;
+    [ClientSE.CREATE_CHECKLIST]: CreateChecklistType;
+    [ClientSE.CREATE_CHECKLIST_ITEM]: CreateChecklistItemType;
 
     [ClientSE.UPDATE_TEXT_BLOCK]: TextBlockEvent[];
     [ClientSE.UPDATE_ORG_FIELD]: (Partial<Organization> & {id: OrganizationId});
@@ -95,6 +134,8 @@ export interface ClientSEPayload {
     [ClientSE.UPDATE_CARD_FIELD]: (Partial<Card> & {id: CardId});
     [ClientSE.UPDATE_MEMBERSHIP_RECORD_FIELD]: (Partial<MembershipRecord> & {id: MembershipRecordId});
     [ClientSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
+    [ClientSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
+    [ClientSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
 
     [ClientSE.SEND_INVITE]: { toUsername: string, entityId: EntityId, entityType: EntityType, role: Role };
     [ClientSE.RESPOND_INVITE]: {inviteId: InviteId, response:boolean};
@@ -117,6 +158,8 @@ export interface ClientSEReplies {
     [ClientSE.GET_BOARD]: BoardRes | undefined;
     [ClientSE.GET_LIST]: ListHeader | undefined;
     [ClientSE.GET_CARD]: Card | undefined;
+    [ClientSE.GET_CHECKLIST]: Checklist | undefined;
+    [ClientSE.GET_CHECKLIST_ITEM]: ChecklistItem | undefined;
     [ClientSE.GET_TEXT_BLOCK]: TextBlock | undefined;
 
     [ClientSE.PREVIEW_ORGANIZATION]: OrganizationHeader | undefined;
@@ -128,6 +171,8 @@ export interface ClientSEReplies {
     [ClientSE.CREATE_BOARD]: BoardId | undefined;
     [ClientSE.CREATE_LIST]: ListId | undefined;
     [ClientSE.CREATE_CARD]: CardId | undefined;
+    [ClientSE.CREATE_CHECKLIST]: ChecklistId | undefined;
+    [ClientSE.CREATE_CHECKLIST_ITEM]: ChecklistItemId | undefined;
     
     [ClientSE.UPDATE_TEXT_BLOCK]: string | undefined;
     [ClientSE.UPDATE_ORG_FIELD]: undefined;
@@ -137,6 +182,8 @@ export interface ClientSEReplies {
     [ClientSE.UPDATE_CARD_FIELD]: undefined;
     [ClientSE.UPDATE_MEMBERSHIP_RECORD_FIELD]: undefined;
     [ClientSE.UPDATE_CARD_ASSIGNEE]: undefined;
+    [ClientSE.UPDATE_CHECKLIST]: undefined;
+    [ClientSE.UPDATE_CHECKLIST_ITEM]: undefined;
     
     [ClientSE.SEND_INVITE]: Invite | undefined;
     [ClientSE.RESPOND_INVITE]: undefined;
@@ -159,6 +206,8 @@ export enum ServerSE { // Server to Client
 
     ADD_LIST = "ADD_LIST",
     ADD_CARD = "ADD_CARD",
+    ADD_CHECKLIST = "ADD_CHECKLIST",
+    ADD_CHECKLIST_ITEM = "ADD_CHECKLIST_ITEM",
     
     UPDATE_TEXT_BLOCK = "UPDATE_TEXT_BLOCK",
     UPDATE_ORG_FIELD = "UPDATE_ORG_FIELD",
@@ -167,6 +216,8 @@ export enum ServerSE { // Server to Client
     UPDATE_LIST_FIELD = "UPDATE_LIST_FIELD",
     UPDATE_CARD_FIELD = "UPDATE_CARD_FIELD",
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
+    UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
+    UPDATE_CHECKLIST_ITEM = "UPDATE_CHECKLIST_ITEM",
 
     RECEIVE_INVITE = "RECEIVE_INVITE",
 }
@@ -184,6 +235,8 @@ export interface ServerSEPayload {
     
     [ServerSE.ADD_LIST]: List;
     [ServerSE.ADD_CARD]: Card;
+    [ServerSE.ADD_CHECKLIST]: Checklist;
+    [ServerSE.ADD_CHECKLIST_ITEM]: ChecklistItem;
     
     [ServerSE.UPDATE_TEXT_BLOCK]: {events: TextBlockEvent[], updated: string};
     [ServerSE.UPDATE_ORG_FIELD]: (Partial<Organization> & {id: OrganizationId});
@@ -192,6 +245,8 @@ export interface ServerSEPayload {
     [ServerSE.UPDATE_LIST_FIELD]: (Partial<List> & {id: ListId});
     [ServerSE.UPDATE_CARD_FIELD]: (Partial<Card> & {id: CardId});
     [ServerSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
+    [ServerSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
+    [ServerSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
 
     [ServerSE.RECEIVE_INVITE]: Invite;
 }
@@ -209,6 +264,8 @@ export interface ServerSEReplies {
 
     [ServerSE.ADD_LIST]: void;
     [ServerSE.ADD_CARD]: void;
+    [ServerSE.ADD_CHECKLIST]: void;
+    [ServerSE.ADD_CHECKLIST_ITEM]: void;
 
     [ServerSE.UPDATE_TEXT_BLOCK]: void;
     [ServerSE.UPDATE_ORG_FIELD]: void;
@@ -217,6 +274,8 @@ export interface ServerSEReplies {
     [ServerSE.UPDATE_LIST_FIELD]: void;
     [ServerSE.UPDATE_CARD_FIELD]: void;
     [ServerSE.UPDATE_CARD_ASSIGNEE]:void;
+    [ServerSE.UPDATE_CHECKLIST]: void;
+    [ServerSE.UPDATE_CHECKLIST_ITEM]: void;
     
     [ServerSE.RECEIVE_INVITE]: void;
 }
@@ -249,6 +308,8 @@ export type CreateProjectType = {name: string, orgId:OrganizationId};
 export type CreateBoardType = {name:string; boardCode: string, projectId: ProjectId};
 export type CreateListType = {boardID: BoardId; listName: string};
 export type CreateCardType = {listID: ListId; cardName: string};
+export type CreateChecklistType = {cardId: CardId; checklistName: string};
+export type CreateChecklistItemType = {checklistId: ChecklistId; itemName: string};
 
 export interface UserData {
     sid: SocketId;
