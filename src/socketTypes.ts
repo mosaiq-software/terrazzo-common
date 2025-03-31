@@ -110,8 +110,8 @@ export interface ClientSEPayload {
     [ClientSE.GET_BOARD]: BoardId;
     [ClientSE.GET_LIST]: ListId;
     [ClientSE.GET_CARD]: CardId;
-    [ClientSE.GET_CHECKLIST]: string;
-    [ClientSE.GET_CHECKLIST_ITEM]: string;
+    [ClientSE.GET_CHECKLIST]: ChecklistId;
+    [ClientSE.GET_CHECKLIST_ITEM]: ChecklistItemId;
     [ClientSE.GET_TEXT_BLOCK]: TextBlockId;
 
     [ClientSE.PREVIEW_ORGANIZATION]: OrganizationId;
