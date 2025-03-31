@@ -94,6 +94,7 @@ export interface Card extends CardHeader{
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
+    checklists: ChecklistId[];
 }
 
 export interface Sprint {
