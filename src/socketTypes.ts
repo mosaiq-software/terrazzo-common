@@ -141,7 +141,7 @@ export interface ClientSEPayload {
     [ClientSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
     [ClientSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
     [ClientSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
-    [ClientSE.SET_CHECKLIST_ITEM_COMPLETED]: {itemId: ChecklistItemId, completed: boolean};
+    [ClientSE.SET_CHECKLIST_ITEM_COMPLETED]: {checklistItemId: ChecklistItemId, checked: boolean};
 
     [ClientSE.SEND_INVITE]: { toUsername: string, entityId: EntityId, entityType: EntityType, role: Role };
     [ClientSE.RESPOND_INVITE]: {inviteId: InviteId, response:boolean};
