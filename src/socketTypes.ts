@@ -62,7 +62,9 @@ export enum ClientSE { // Client to Server
     GET_LIST = "GET_LIST",
     GET_CARD = "GET_CARD",
     GET_CHECKLIST = "GET_CHECKLIST",
+    GET_CHECKLISTS_BY_CARDID = "GET_CHECKLISTS_BY_CARDID",
     GET_CHECKLIST_ITEM = "GET_CHECKLIST_ITEM",
+    GET_CHECKLIST_ITEMS_BY_CHECKLISTID = "GET_CHECKLIST_ITEMS_BY_CHECKLISTID",
     GET_TEXT_BLOCK = "GET_TEXT_BLOCK",
 
     PREVIEW_ORGANIZATION = "PREVIEW_ORGANIZATION",
@@ -111,7 +113,9 @@ export interface ClientSEPayload {
     [ClientSE.GET_LIST]: ListId;
     [ClientSE.GET_CARD]: CardId;
     [ClientSE.GET_CHECKLIST]: ChecklistId;
+    [ClientSE.GET_CHECKLISTS_BY_CARDID]: CardId;
     [ClientSE.GET_CHECKLIST_ITEM]: ChecklistItemId;
+    [ClientSE.GET_CHECKLIST_ITEMS_BY_CHECKLISTID]: ChecklistItemId;
     [ClientSE.GET_TEXT_BLOCK]: TextBlockId;
 
     [ClientSE.PREVIEW_ORGANIZATION]: OrganizationId;
@@ -159,7 +163,9 @@ export interface ClientSEReplies {
     [ClientSE.GET_LIST]: ListHeader | undefined;
     [ClientSE.GET_CARD]: Card | undefined;
     [ClientSE.GET_CHECKLIST]: Checklist | undefined;
+    [ClientSE.GET_CHECKLISTS_BY_CARDID]: Checklist[] | undefined;
     [ClientSE.GET_CHECKLIST_ITEM]: ChecklistItem | undefined;
+    [ClientSE.GET_CHECKLIST_ITEMS_BY_CHECKLISTID]: ChecklistItem[] | undefined;
     [ClientSE.GET_TEXT_BLOCK]: TextBlock | undefined;
 
     [ClientSE.PREVIEW_ORGANIZATION]: OrganizationHeader | undefined;
