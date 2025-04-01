@@ -89,6 +89,7 @@ export enum ClientSE { // Client to Server
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
     UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
     UPDATE_CHECKLIST_ITEM = "UPDATE_CHECKLIST_ITEM",
+    SET_CHECKLIST_ITEM_COMPLETED = "SET_CHECKLIST_ITEM_COMPLETED",
 
     SEND_INVITE = "SEND_INVITE",
     RESPOND_INVITE = "RESPOND_INVITE",
@@ -140,6 +141,7 @@ export interface ClientSEPayload {
     [ClientSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
     [ClientSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
     [ClientSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
+    [ClientSE.SET_CHECKLIST_ITEM_COMPLETED]: {itemId: ChecklistItemId, completed: boolean};
 
     [ClientSE.SEND_INVITE]: { toUsername: string, entityId: EntityId, entityType: EntityType, role: Role };
     [ClientSE.RESPOND_INVITE]: {inviteId: InviteId, response:boolean};
@@ -190,6 +192,7 @@ export interface ClientSEReplies {
     [ClientSE.UPDATE_CARD_ASSIGNEE]: undefined;
     [ClientSE.UPDATE_CHECKLIST]: undefined;
     [ClientSE.UPDATE_CHECKLIST_ITEM]: undefined;
+    [ClientSE.SET_CHECKLIST_ITEM_COMPLETED]: undefined;
     
     [ClientSE.SEND_INVITE]: Invite | undefined;
     [ClientSE.RESPOND_INVITE]: undefined;
@@ -224,6 +227,7 @@ export enum ServerSE { // Server to Client
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
     UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
     UPDATE_CHECKLIST_ITEM = "UPDATE_CHECKLIST_ITEM",
+    SET_CHECKLIST_ITEM_COMPLETED = "SET_CHECKLIST_ITEM_COMPLETED",
 
     RECEIVE_INVITE = "RECEIVE_INVITE",
 }
@@ -253,6 +257,7 @@ export interface ServerSEPayload {
     [ServerSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
     [ServerSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
     [ServerSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
+    [ServerSE.SET_CHECKLIST_ITEM_COMPLETED]: {itemId: ChecklistItemId, completed: boolean};
 
     [ServerSE.RECEIVE_INVITE]: Invite;
 }
@@ -282,6 +287,7 @@ export interface ServerSEReplies {
     [ServerSE.UPDATE_CARD_ASSIGNEE]:void;
     [ServerSE.UPDATE_CHECKLIST]: void;
     [ServerSE.UPDATE_CHECKLIST_ITEM]: void;
+    [ServerSE.SET_CHECKLIST_ITEM_COMPLETED]: void;
     
     [ServerSE.RECEIVE_INVITE]: void;
 }
