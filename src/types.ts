@@ -150,6 +150,7 @@ export interface ChecklistItem {
 }
 export interface Checklist {
     id: ChecklistId;
+    cardId: CardId;
     checklistName: string;
     archived: boolean;
 }
