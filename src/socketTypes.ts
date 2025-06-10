@@ -85,6 +85,8 @@ export enum ClientSE { // Client to Server
     UPDATE_BOARD_FIELD = "UPDATE_BOARD_FIELD",
     UPDATE_LIST_FIELD = "UPDATE_LIST_FIELD",
     UPDATE_CARD_FIELD = "UPDATE_CARD_FIELD",
+    UPDATE_CHECKLIST_FIELD = "UPDATE_CHECKLIST_FIELD",
+    UPDATE_CHECKLIST_ITEM_FIELD = "UPDATE_CHECKLIST_ITEM_FIELD",
     UPDATE_MEMBERSHIP_RECORD_FIELD = "UPDATE_MEMBERSHIP_RECORD_FIELD",
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
     UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
@@ -95,7 +97,7 @@ export enum ClientSE { // Client to Server
     RESPOND_INVITE = "RESPOND_INVITE",
     KICK_MEMBER = "KICK_MEMBER",
 
-
+    DELETE_CHECKLIST = "DELETE_CHECKLIST"
 }
 export interface ClientSEPayload {
     // Client to Server
@@ -137,6 +139,8 @@ export interface ClientSEPayload {
     [ClientSE.UPDATE_BOARD_FIELD]: (Partial<Board> & {id: BoardId});
     [ClientSE.UPDATE_LIST_FIELD]: (Partial<List> & {id: ListId});
     [ClientSE.UPDATE_CARD_FIELD]: (Partial<Card> & {id: CardId});
+    [ClientSE.UPDATE_CHECKLIST_FIELD]: (Partial<Checklist> & {id: ChecklistId});
+    [ClientSE.UPDATE_CHECKLIST_ITEM_FIELD]: (Partial<ChecklistItem> & {id: ChecklistItemId});
     [ClientSE.UPDATE_MEMBERSHIP_RECORD_FIELD]: (Partial<MembershipRecord> & {id: MembershipRecordId});
     [ClientSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
     [ClientSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
@@ -146,6 +150,8 @@ export interface ClientSEPayload {
     [ClientSE.SEND_INVITE]: { toUsername: string, entityId: EntityId, entityType: EntityType, role: Role };
     [ClientSE.RESPOND_INVITE]: {inviteId: InviteId, response:boolean};
     [ClientSE.KICK_MEMBER]: MembershipRecordId;
+
+    [ClientSE.DELETE_CHECKLIST]: ChecklistId;
 
 }
 export interface ClientSEReplies {
@@ -188,6 +194,8 @@ export interface ClientSEReplies {
     [ClientSE.UPDATE_BOARD_FIELD]: undefined;
     [ClientSE.UPDATE_LIST_FIELD]: undefined;
     [ClientSE.UPDATE_CARD_FIELD]: undefined;
+    [ClientSE.UPDATE_CHECKLIST_FIELD]: undefined;
+    [ClientSE.UPDATE_CHECKLIST_ITEM_FIELD]: undefined;
     [ClientSE.UPDATE_MEMBERSHIP_RECORD_FIELD]: undefined;
     [ClientSE.UPDATE_CARD_ASSIGNEE]: undefined;
     [ClientSE.UPDATE_CHECKLIST]: undefined;
@@ -197,6 +205,8 @@ export interface ClientSEReplies {
     [ClientSE.SEND_INVITE]: Invite | undefined;
     [ClientSE.RESPOND_INVITE]: undefined;
     [ClientSE.KICK_MEMBER]: undefined;
+
+    [ClientSE.DELETE_CHECKLIST]: undefined;
 
 }
 export type ClientSEReply<T extends ClientSE> = (payload: ClientSEReplies[T], error?: string) => void;
@@ -224,12 +234,16 @@ export enum ServerSE { // Server to Client
     UPDATE_BOARD_FIELD = "UPDATE_BOARD_FIELD",
     UPDATE_LIST_FIELD = "UPDATE_LIST_FIELD",
     UPDATE_CARD_FIELD = "UPDATE_CARD_FIELD",
+    UPDATE_CHECKLIST_FIELD = "UPDATE_CHECKLIST_FIELD",
+    UPDATE_CHECKLIST_ITEM_FIELD = "UPDATE_CHECKLIST_ITEM_FIELD",
     UPDATE_CARD_ASSIGNEE = "UPDATE_CARD_ASSIGNEE",
     UPDATE_CHECKLIST = "UPDATE_CHECKLIST",
     UPDATE_CHECKLIST_ITEM = "UPDATE_CHECKLIST_ITEM",
     SET_CHECKLIST_ITEM_COMPLETED = "SET_CHECKLIST_ITEM_COMPLETED",
 
     RECEIVE_INVITE = "RECEIVE_INVITE",
+
+    DELETE_CHECKLIST = "DELETE_CHECKLIST"
 }
 export interface ServerSEPayload {
     // Server to Client
@@ -254,12 +268,16 @@ export interface ServerSEPayload {
     [ServerSE.UPDATE_BOARD_FIELD]: (Partial<Board> & {id: BoardId});
     [ServerSE.UPDATE_LIST_FIELD]: (Partial<List> & {id: ListId});
     [ServerSE.UPDATE_CARD_FIELD]: (Partial<Card> & {id: CardId});
+    [ServerSE.UPDATE_CHECKLIST_FIELD]: (Partial<Checklist> & {id: ChecklistId});
+    [ServerSE.UPDATE_CHECKLIST_ITEM_FIELD]: (Partial<ChecklistItem> & {id: ChecklistItemId});
     [ServerSE.UPDATE_CARD_ASSIGNEE]: {cardId:CardId, userId:UserId, assigned:boolean};
     [ServerSE.UPDATE_CHECKLIST]: (Partial<Checklist> & {id: ChecklistId});
     [ServerSE.UPDATE_CHECKLIST_ITEM]: (Partial<ChecklistItem> & {id: ChecklistItemId});
     [ServerSE.SET_CHECKLIST_ITEM_COMPLETED]: {itemId: ChecklistItemId, completed: boolean};
 
     [ServerSE.RECEIVE_INVITE]: Invite;
+
+    [ServerSE.DELETE_CHECKLIST]: ChecklistId;
 }
 export interface ServerSEReplies {
     // Server to Client req - Client to Server callback
@@ -284,12 +302,16 @@ export interface ServerSEReplies {
     [ServerSE.UPDATE_BOARD_FIELD]: void;
     [ServerSE.UPDATE_LIST_FIELD]: void;
     [ServerSE.UPDATE_CARD_FIELD]: void;
+    [ServerSE.UPDATE_CHECKLIST_FIELD]: void;
+    [ServerSE.UPDATE_CHECKLIST_ITEM_FIELD]: void;
     [ServerSE.UPDATE_CARD_ASSIGNEE]:void;
     [ServerSE.UPDATE_CHECKLIST]: void;
     [ServerSE.UPDATE_CHECKLIST_ITEM]: void;
     [ServerSE.SET_CHECKLIST_ITEM_COMPLETED]: void;
     
     [ServerSE.RECEIVE_INVITE]: void;
+
+    [ServerSE.DELETE_CHECKLIST]: void;
 }
 export type ServerSEReply<T extends ServerSE> = (payload: ServerSEReplies[T], error?: string) => void;
 
