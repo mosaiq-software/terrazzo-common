@@ -90,11 +90,19 @@ export interface CardHeader {
     order: number;
     descriptionTextBlockId: TextBlockId;
 }
+
 export interface Card extends CardHeader{
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
     checklists: ChecklistId[];
+}
+
+export interface ChecklistHeader {
+    id: ChecklistId;
+    cardId: CardId;
+    checklistName: string;
+    archived: boolean;
 }
 
 export interface Sprint {
@@ -148,7 +156,7 @@ export interface ChecklistItem {
     checked: boolean;
     order: number;
 }
-export interface Checklist {
+export interface Checklist extends ChecklistHeader {
     id: ChecklistId;
     cardId: CardId;
     checklistName: string;
