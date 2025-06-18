@@ -83,6 +83,7 @@ export interface CardHeader {
     cardNumber: number;
     name: string;
     priority: Priority | null;
+    dateCompleted: Date | null;
     storyPoints: StoryPoints | null;
     sprintId: string;
     archived: boolean;
