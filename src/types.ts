@@ -87,11 +87,15 @@ export interface CardHeader {
     archived: boolean;
     order: number;
     descriptionTextBlockId: TextBlockId;
+    creatorId: UserId;
+    creationDate: Date;
 }
+
 export interface Card extends CardHeader{
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
+    creator: UserHeader | null;
 }
 
 export interface Sprint {

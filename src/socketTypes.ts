@@ -1,5 +1,5 @@
 import { EntityType, Role } from "./constants";
-import {Board, BoardId, Card, CardId, List, ListId, Organization, OrganizationHeader, OrganizationId, Project, ProjectHeader, ProjectId, TextBlock, TextBlockEvent, TextBlockId, UserId, User, InviteId, Invite, EntityId, MembershipRecordId, MembershipRecord, UserDash, UserHeader, Assignment, BoardRes, ListHeader} from "./types";
+import {Board, BoardId, Card, CardId, List, ListId, Organization, OrganizationHeader, OrganizationId, Project, ProjectHeader, ProjectId, TextBlock, TextBlockEvent, TextBlockId, UserId, User, InviteId, Invite, EntityId, MembershipRecordId, MembershipRecord, UserDash, UserHeader, Assignment, BoardRes, ListHeader, CardHeader} from "./types";
 
 // SOCKET IO BUILT-IN EVENTS
 export enum ClientSocketIOEvent {
@@ -183,7 +183,7 @@ export interface ServerSEPayload {
     [ServerSE.MOVE_CARD]: {cardId: CardId, toList: ListId, position?: number};
     
     [ServerSE.ADD_LIST]: List;
-    [ServerSE.ADD_CARD]: Card;
+    [ServerSE.ADD_CARD]: CardHeader;
     
     [ServerSE.UPDATE_TEXT_BLOCK]: {events: TextBlockEvent[], updated: string};
     [ServerSE.UPDATE_ORG_FIELD]: (Partial<Organization> & {id: OrganizationId});
