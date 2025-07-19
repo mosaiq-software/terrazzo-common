@@ -185,6 +185,7 @@ export interface UserDash {
     organizations: UserDashOrganization[];
     standaloneProjects: UserDashProject[];
     invites: Invite[];
+    assignedCards: Card[];
 }
 
 export interface GithubUserProfile {
