@@ -1,4 +1,4 @@
-import {EntityType, Priority, Role, StoryPoints} from "./constants";
+import { EntityType, Priority, Role, StoryPoints } from './constants';
 
 export type URL = string;
 export type UID = `${string}-${string}-${string}-${string}-${string}`;
@@ -15,6 +15,7 @@ export type InviteId = UID;
 export type MembershipRecordId = UID;
 export type EntityId = ProjectId | OrganizationId;
 export type AssignmentId = UID;
+export type DocumentId = UID;
 
 export interface OrganizationHeader {
     id: OrganizationId;
@@ -25,10 +26,11 @@ export interface OrganizationHeader {
     isPersonalOrg: boolean;
     description: string;
 }
-export interface Organization extends OrganizationHeader{
+export interface Organization extends OrganizationHeader {
     members: Member[];
     projects: ProjectHeader[];
     invites: Invite[];
+    documents: DocumentHeader[];
 }
 
 export interface ProjectHeader {
@@ -40,11 +42,11 @@ export interface ProjectHeader {
     logoUrl: URL;
     description: string;
 }
-export interface Project extends ProjectHeader{
-    orgMembers: Member[];
-    externalMembers: Member[];
+export interface Project extends ProjectHeader {
+    members: Member[];
     boards: BoardHeader[];
     invites: Invite[];
+    documents: DocumentHeader[];
 }
 
 export interface BoardHeader {
@@ -56,14 +58,13 @@ export interface BoardHeader {
     createdAt: number;
     totalCards: number;
 }
-export interface Board extends BoardHeader{
+export interface Board extends BoardHeader {
     lists: List[];
-    sprints: Sprint[];
     labels: Label[];
+    members: Member[];
 }
-export interface BoardRes extends BoardHeader {
-    lists: {listId:ListId, cardIds:CardId[]}[];
-    labels: Label[];
+export interface BoardRes extends Omit<Board, 'lists'> {
+    lists: { listId: ListId; cardIds: CardId[] }[];
 }
 
 export interface ListHeader {
@@ -73,7 +74,7 @@ export interface ListHeader {
     archived: boolean;
     order: number;
 }
-export interface List extends ListHeader{
+export interface List extends ListHeader {
     cards: Card[];
 }
 
@@ -84,22 +85,17 @@ export interface CardHeader {
     name: string;
     priority: Priority | null;
     storyPoints: StoryPoints | null;
-    sprintId: string;
     archived: boolean;
     order: number;
     descriptionTextBlockId: TextBlockId;
+    createdAt: number;
+    createdById: UserId | null;
 }
-export interface Card extends CardHeader{
+export interface Card extends CardHeader {
     comments: CommentId[];
     labels: LabelId[];
     assignees: UserId[];
-}
-
-export interface Sprint {
-    id: string;
-    name: string;
-    startDate: Date;
-    endDate: Date;
+    createdBy: UserHeader | null;
 }
 
 export interface UserHeader {
@@ -132,12 +128,6 @@ export interface Label {
 export interface TextBlock {
     id: TextBlockId;
     text: string;
-}
-export interface TextBlockEvent {
-    id: TextBlockId;
-    start: number;
-    end: number;
-    inserted: string;
 }
 
 export interface MembershipRecord {
@@ -188,10 +178,10 @@ export interface UserDash {
 }
 
 export interface GithubUserProfile {
-    id: string,
-    login: string,
-    avatar_url: URL,
-    name: string,
+    id: string;
+    login: string;
+    avatar_url: URL;
+    name: string;
 }
 
 export interface Assignment {
@@ -201,3 +191,33 @@ export interface Assignment {
 }
 
 export type NonEmptyArray<T> = [T, ...T[]];
+
+export enum DatapointType {
+    BoardTitle = 'board.title',
+    CardTitle = 'card.title',
+    CardDescription = 'card.description',
+    DocumentTitle = 'document.title',
+    DocumentContent = 'document.content',
+}
+export interface QueryableDatapoint {
+    title: string;
+    display: string;
+    content: string;
+    id: UID;
+    type: DatapointType;
+}
+
+export interface QueryResult extends QueryableDatapoint {
+    score: number;
+}
+
+export interface DocumentHeader {
+    id: DocumentId;
+    parentId: UID;
+    title: string;
+    textBlockId: TextBlockId;
+    archived: boolean;
+    createdAt: number;
+    lastModifiedAt: number;
+    lastModifiedByUserId: UserId;
+}
